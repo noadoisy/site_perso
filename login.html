@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        input[type="text"], input[type="password"] {
+            padding: 10px;
+            margin: 10px;
+            width: 250px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Accédez à votre site sécurisé</h2>
+
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Identifiant" required><br>
+        <input type="password" id="password" placeholder="Mot de passe" required><br>
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <script>
+        // Définir l'identifiant et le mot de passe (remplacez-les par vos propres valeurs)
+        const validUsername = "user";  // Exemple : Identifiant valide
+        const validPassword = "bienvenue";  // Exemple : Mot de passe valide
+
+        // Gestion du formulaire de connexion
+        document.getElementById("loginForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Vérifier les informations de connexion
+            if (username === validUsername && password === validPassword) {
+                // Si correct, rediriger vers la page d'accueil (index.html)
+                window.location.href = "index.html";  // Remplacez par l'URL de votre page d'accueil
+            } else {
+                alert("Identifiant ou mot de passe incorrect !");
+            }
+        });
+    </script>
+</body>
+</html>

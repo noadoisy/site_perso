@@ -47,31 +47,19 @@
     </form>
 
     <script>
-        // Identifiant valide et hachage du mot de passe "coucou123"
-        const validUsername = "user";
-        const validPasswordHash = "3bbd36dc8ab62a6d4e1c7b6e591ef3d57e3744e8f4790bb983a4d58fc5de979a";
-
-        // Fonction pour hacher une chaîne avec SHA-256
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-        }
+        const validUsername = "user"; 
+        const validPassword = "bienvenue"; 
 
         // Gestion du formulaire de connexion
-        document.getElementById("loginForm").addEventListener("submit", async function(e) {
+        document.getElementById("loginForm").addEventListener("submit", function(e) {
             e.preventDefault();
 
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
 
-            // Hacher le mot de passe saisi
-            const hashedPassword = await hashPassword(password);
-
             // Vérifier les informations de connexion
-            if (username === validUsername && hashedPassword === validPasswordHash) {
-                window.location.href = "pageA.html"; // Rediriger vers la page d'accueil
+            if (username === validUsername && password === validPassword) {
+                window.location.href = "accueil.html"; // Rediriger vers la page d'accueil
             } else {
                 alert("Identifiant ou mot de passe incorrect !");
             }

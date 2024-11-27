@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login avec Nom d'utilisateur</title>
+  <title>Connexion</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -48,6 +48,7 @@
       font-size: 0.9em;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
   <form id="loginForm">
@@ -63,40 +64,26 @@
   </form>
 
   <script>
-    // Nom d'utilisateur et hash du mot de passe préconfigurés
-    const STORED_USERNAME = "user"; // Nom d'utilisateur correct
-    const STORED_HASH = "f2c7d52e928036e6aee33b7d8773c736"; // Hash MD5 de "secret123"
+    const STORED_USERNAME = "user";
+    const STORED_HASH = "f2c7d52e928036e6aee33b7d8773c736";
 
-    // Fonction pour calculer un hash MD5 (via une bibliothèque externe)
-    function md5(string) {
-      return crypto.subtle.digest("MD5", new TextEncoder().encode(string)).then(buffer => {
-        return Array.from(new Uint8Array(buffer))
-          .map(b => b.toString(16).padStart(2, "0"))
-          .join("");
-      });
-    }
-
-    // Gestion du formulaire
-    document.getElementById("loginForm").addEventListener("submit", async function (e) {
-      e.preventDefault(); // Empêche le rechargement de la page
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
 
       const usernameInput = document.getElementById("username").value.trim();
       const passwordInput = document.getElementById("password").value;
       const errorMessage = document.getElementById("errorMessage");
 
-      // Vérifie le nom d'utilisateur
       if (usernameInput !== STORED_USERNAME) {
         errorMessage.textContent = "Nom d'utilisateur incorrect.";
         return;
       }
 
-      // Calcul du hash du mot de passe utilisateur
-      const userHash = await md5(passwordInput);
+      const userHash = CryptoJS.MD5(passwordInput).toString();
 
-      // Vérifie si le hash correspond au hash stocké
       if (userHash === STORED_HASH) {
         alert("Connexion réussie !");
-        errorMessage.textContent = ""; // Efface les erreurs
+        errorMessage.textContent = "";
       } else {
         errorMessage.textContent = "Mot de passe incorrect.";
       }

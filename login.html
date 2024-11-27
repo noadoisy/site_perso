@@ -34,7 +34,7 @@
 </head>
 <body>
 
-    <h2>Accédez au site </h2>
+    <h2>Accédez à votre site sécurisé</h2>
 
     <form id="loginForm">
         <input type="text" id="username" placeholder="Identifiant" required><br>
@@ -47,19 +47,31 @@
     </form>
 
     <script>
-        const validUsername = "user"; 
-        const validPassword = "coucou123"; 
+        // Identifiant et mot de passe valides
+        const validUsername = "user"; // Identifiant attendu
+        const validPasswordHash = "3bbd36dc8ab62a6d4e1c7b6e591ef3d57e3744e8f4790bb983a4d58fc5de979a"; // Hachage de "coucou123"
+
+        // Fonction pour hacher une chaîne avec SHA-256
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
 
         // Gestion du formulaire de connexion
-        document.getElementById("loginForm").addEventListener("submit", function(e) {
+        document.getElementById("loginForm").addEventListener("submit", async function(e) {
             e.preventDefault();
 
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
 
+            // Hacher le mot de passe saisi
+            const hashedPassword = await hashPassword(password);
+
             // Vérifier les informations de connexion
-            if (username === validUsername && password === validPassword) {
-                window.location.href = "index.html";
+            if (username === validUsername && hashedPassword === validPasswordHash) {
+                window.location.href = "index.html"; // Rediriger vers index.html
             } else {
                 alert("Identifiant ou mot de passe incorrect !");
             }

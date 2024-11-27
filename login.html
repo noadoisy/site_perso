@@ -1,93 +1,106 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-        }
-        input[type="text"], input[type="password"] {
-            padding: 10px;
-            margin: 10px;
-            width: 250px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .toggle-password {
-            margin-top: 10px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login avec Nom d'utilisateur</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      width: 300px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      background: #007BFF;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+  </style>
 </head>
 <body>
+  <form id="loginForm">
+    <h2>Connexion</h2>
+    <label for="username">Nom d'utilisateur :</label>
+    <input type="text" id="username" placeholder="Entrez votre nom d'utilisateur" required />
 
-    <h2>Accédez à votre site sécurisé</h2>
+    <label for="password">Mot de passe :</label>
+    <input type="password" id="password" placeholder="Entrez votre mot de passe" required />
 
-    <form id="loginForm">
-        <input type="text" id="username" placeholder="Identifiant" required><br>
-        <input type="password" id="password" placeholder="Mot de passe" required><br>
-        <!-- Ajouter une case pour afficher le mot de passe -->
-        <label class="toggle-password">
-            <input type="checkbox" id="showPassword"> Afficher le mot de passe
-        </label><br>
-        <button type="submit">Se connecter</button>
-    </form>
+    <div class="error" id="errorMessage"></div>
+    <button type="submit">Se connecter</button>
+  </form>
 
-    <script>
-        // Identifiant et mot de passe valides
-        const validUsername = "user"; // Identifiant attendu
-        const validPasswordHash = "3bbd36dc8ab62a6d4e1c7b6e591ef3d57e3744e8f4790bb983a4d58fc5de979a"; // Hachage de "coucou123"
+  <script>
+    // Nom d'utilisateur et hash du mot de passe préconfigurés
+    const STORED_USERNAME = "user"; // Nom d'utilisateur correct
+    const STORED_HASH = "f2c7d52e928036e6aee33b7d8773c736"; // Hash MD5 de "secret123"
 
-        // Fonction pour hacher une chaîne avec SHA-256
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-        }
+    // Fonction pour calculer un hash MD5 (via une bibliothèque externe)
+    function md5(string) {
+      return crypto.subtle.digest("MD5", new TextEncoder().encode(string)).then(buffer => {
+        return Array.from(new Uint8Array(buffer))
+          .map(b => b.toString(16).padStart(2, "0"))
+          .join("");
+      });
+    }
 
-        // Gestion du formulaire de connexion
-        document.getElementById("loginForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
+    // Gestion du formulaire
+    document.getElementById("loginForm").addEventListener("submit", async function (e) {
+      e.preventDefault(); // Empêche le rechargement de la page
 
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+      const usernameInput = document.getElementById("username").value.trim();
+      const passwordInput = document.getElementById("password").value;
+      const errorMessage = document.getElementById("errorMessage");
 
-            // Hacher le mot de passe saisi
-            const hashedPassword = await hashPassword(password);
+      // Vérifie le nom d'utilisateur
+      if (usernameInput !== STORED_USERNAME) {
+        errorMessage.textContent = "Nom d'utilisateur incorrect.";
+        return;
+      }
 
-            // Vérifier les informations de connexion
-            if (username === validUsername && hashedPassword === validPasswordHash) {
-                window.location.href = "index.html"; // Rediriger vers index.html
-            } else {
-                alert("Identifiant ou mot de passe incorrect !");
-            }
-        });
+      // Calcul du hash du mot de passe utilisateur
+      const userHash = await md5(passwordInput);
 
-        // Gestion de la visibilité du mot de passe
-        const passwordInput = document.getElementById("password");
-        const showPasswordCheckbox = document.getElementById("showPassword");
-
-        showPasswordCheckbox.addEventListener("change", function() {
-            if (this.checked) {
-                passwordInput.type = "text"; // Afficher le mot de passe
-            } else {
-                passwordInput.type = "password"; // Cacher le mot de passe
-            }
-        });
-    </script>
+      // Vérifie si le hash correspond au hash stocké
+      if (userHash === STORED_HASH) {
+        alert("Connexion réussie !");
+        errorMessage.textContent = ""; // Efface les erreurs
+      } else {
+        errorMessage.textContent = "Mot de passe incorrect.";
+      }
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice 1 : Informations de 1ère connexion</title>
+    <link rel="stylesheet" href="../../../style.css"> 
+</head>
+<body>
+    <header>
+        <h1>Informations de 1ère connexion</h1>
+    </header>
+    
+    <form action="http://gigondas.iut-valence.fr/~merciera/testFrm.php" method="post">
+    <section>
+        <h2>Saississez le contenu du Formulaire :</h2>
+        
+        <div>
+        <label for="nom_client">Nom&nbsp;:</label>
+        <input type="text" id="nom_client" name="nom" placeholder="Saississez votre nom s'il vous plaît" size="50" maxlength="30" required/>
+        </div>
+        
+        <div>
+        <label for="mdp_client">Mot de Passe&nbsp;:</label>
+        <input type="password" id="mdp_client" name="mdp" placeholder="Votre Mot de passe" required/>
+        </div>
+
+        <div>
+        <label for="date_client">Date&nbsp;:</label>
+        <input type="date" id="date_client" name="date" required/>
+        </div>
+    </section>
+    <section>
+        <h2>Validation / Annulation du formulaire :</h2>
+        <div>
+            <input type="submit" value="Valider">
+            <input type="reset" value="Annuler">
+        </div>
+    </section>
+    </form>
+
+    <section>
+        <h2>Contact :</h2>
+        <p>Si vous avez besoin , vous pouvez envoyez un mail au <a href="mailto:noa.doisy@etu.univ-grenoble-alpes.fr">Webmaster Noa</a> ou au <a href="mailto:ilyess.tajer@etu.univ-grenoble-alpes.fr">Webmaster Ilyess</a>.</p></section>
+    </section>
+
+    <footer>
+        <p> &copy; 2024 Site de perso de DOISY Noa</p>
+    </footer>
+</body>
+</html>

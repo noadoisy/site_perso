@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice 2 : Informations supplémentaires</title>
+    <link rel="stylesheet" href="../../../style.css">
+</head>
+<body>
+    <header>
+    <h1>Informations supplémentaires</h1>
+    </header>
+
+    
+    <form action="http://gigondas.iut-valence.fr/~merciera/testFrm.php" method="post">
+        <section>
+        <h2>Saississez le contenu du Frm suivant :</h2>
+        <div>        
+        <label for="genre" > Genre: </label>
+        <select name="genre" id="genre">
+            <option value="Monsieur"selected>Monsieur</option>
+            <option value="Madame" >Madame</option>
+        </select>
+        </div>
+
+        <div>
+            <label for="modedetransport"> Mode de transport :</label>
+
+            <input type="checkbox" id="Vélo" name="modedetransport" value="Vélo" />
+            <label for="Vélo">Vélo</label>
+
+            <input type="checkbox" id="A pied" name="modedetransport" value="A pied" />
+            <label for="A pied">A pied</label>
+
+            <input type="checkbox" id="Montgolfière" name="modedetransport" value="Montgolfière" />
+            <label for="Montgolfière">Montgolfière</label>
+
+            <input type="checkbox" id="Autre" name="modedetransport" value="Autre" />
+            <label for="Autre">Autre</label>
+        </div>
+        
+        
+        <div>
+            <label for="age"> Age : </label>
+
+            <input type="radio" id="Jeune" name="age" value="Jeune" />
+            <label for="Jeune">Jeune (0 - 17)  </label>
+
+            <input type="radio" id="Actif" name="age" value="Actif" />
+            <label for="Actif">Actif (18 - 59)  </label>
+
+            <input type="radio" id="Senior" name="age" value="Senior" />
+            <label for="Senior">Senior (60 et +)  </label>
+        </div>
+        </section>
+        <section>
+            <h2>Validation / Annulation du formulaire :</h2>
+            <div>
+                <input type="submit" value="Valider">
+                <input type="reset" value="Annuler">
+            </div>
+        </section>
+        </form>
+
+
+    </form>
+
+    <section>
+    <h2>Contact :</h2>
+    <p>Si vous avez besoin , vous pouvez envoyez un mail au <a href="mailto:noa.doisy@etu.univ-grenoble-alpes.fr">Webmaster Noa</a> ou au <a href="mailto:ilyess.tajer@etu.univ-grenoble-alpes.fr">Webmaster Ilyess</a>.</p>    </section>
+    </section>
+
+    <footer>
+        <p> &copy; 2024 Site de perso de DOISY Noa</p>
+    </footer>
+</body>
+</html>

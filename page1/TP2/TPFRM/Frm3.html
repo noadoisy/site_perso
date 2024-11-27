@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice 3 : Quelques exemples de datalist</title>
+    <link rel="stylesheet" href="../../../style.css">
+</head>
+<body>
+    <header><h1>Quelques exemples de datalist</h1></header>
+
+    <form action="http://gigondas.iut-valence.fr/~merciera/testFrm.php" method="post">
+        
+        <section>
+
+            <div>
+            <h2>Saississez le contenu du formulaire suivant :</h2>
+            <label for="modetransports1">Quel est votre mode de transport habituel ? </label>
+            <input list="transports" id="modetransports1" name="modetransports1" required/>
+            </div>
+            
+            <div>
+            <label for="modetransports2">Quel est le mode de transport habituel de votre binome ? </label>
+            <input list="transports" id="modetransports2" name="modetransports2" required/>
+            </div>
+
+            <div>
+            <label for="age">Votre tranche d'âge (0-18-60): </label> 
+            <input type="range" min="0" max="60" set="18" id="age" name="age" list="tranche" required/>
+            </div>
+
+            <div>
+            <label for="sites">Liens vers les sites</label>
+            <input list="liens" id="sites" name="site" required/>
+            </div>
+
+            <datalist id="transports">
+                <option value="A pied"></option>
+                <option value="Le vélo"></option>
+                <option value="La voiture"></option>
+                <option value="Le Bus"></option>
+                <option value="Le train"></option>
+                <option value="La Mongolfière"></option>
+                <option value="Le Jet-Privé"></option>
+            </datalist>
+
+            <datalist id="tranche">
+                <option value="0"></option>
+                <option value="18"></option>
+                <option value="60"></option>
+            </datalist>
+
+            <datalist id="liens">
+                <option value="https://www.iut-valence.fr"></option>
+                <option value="https://www.univ-grenoble-alpes.fr"></option>
+                <option value="http://www.aduda.fr"></option>
+            </datalist>
+        </section>
+        
+        <section>
+            <h2>Validation / Annulation du formulaire :</h2>
+            <div>
+                <input type="submit" value="Valider">
+                <input type="reset" value="Annuler">
+            </div>
+        </section>
+
+    </form>
+    <section>
+        <h2>Contact :</h2>
+        <p>Si vous avez besoin , vous pouvez envoyez un mail au <a href="mailto:noa.doisy@etu.univ-grenoble-alpes.fr">Webmaster Noa</a> ou au <a href="mailto:ilyess.tajer@etu.univ-grenoble-alpes.fr">Webmaster Ilyess</a>.</p></section>
+    </section>
+</body>
+</html>

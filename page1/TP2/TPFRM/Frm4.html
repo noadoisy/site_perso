@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice 4 : Formulaire complet</title>
+    <link rel="stylesheet" href="../../../style.css">
+</head>
+<body>
+    <header>
+        <h1>Formulaire complet de DOISY Noa & TAJER Ilyess</h1>
+    </header>
+    <form action="http://gigondas.iut-valence.fr/~merciera/testFrm.php" method="post">
+    <section>
+    <fieldset>
+        <legend><h2>Information de 1ère connexion :</h2></legend>
+        <div>
+            <label for="nom_client">Nom :</label>
+            <input type="text" id="nom_client" name="nom" placeholder="Saisissez votre nom s'il vous plaît" size="50" maxlength="30" required/>
+        </div>
+        
+        <div>
+            <label for="mdp_client">Mot de Passe :</label>
+            <input type="password" id="mdp_client" name="mdp" placeholder="Votre mot de passe" required/>
+        </div>
+        
+        <div>
+            <label for="date_client">Date :</label>
+            <input type="date" id="date_client" name="date" required/>
+        </div>
+        
+    </fieldset>
+    </section>
+    <section>
+    <fieldset>
+        <legend><h2>Informations supplémentaires :</h2></legend>
+
+        <div>
+            <label for="genre">Genre :</label>
+            <select name="genre" id="genre" required>
+                <option value="Monsieur" selected>Monsieur</option>
+                <option value="Madame">Madame</option>
+            </select>
+        </div>
+        
+        <div>
+            <label>Mode de transport :</label>
+            <input type="checkbox" id="Vélo" name="modedetransport" value="Vélo" />
+            <label for="Vélo">Vélo</label>
+
+            <input type="checkbox" id="A pied" name="modedetransport" value="A pied" />
+            <label for="A pied">A pied</label>
+
+            <input type="checkbox" id="Montgolfière" name="modedetransport" value="Montgolfière" />
+            <label for="Montgolfière">Montgolfière</label>
+
+            <input type="checkbox" id="Autre" name="modedetransport" value="Autre" />
+            <label for="Autre">Autre</label>
+        </div>
+        
+        <div>
+            <label> Âge :</label>
+            <input type="radio" id="Jeune" name="age" value="Jeune" />
+            <label for="Jeune">Jeune (0 - 17) </label>
+
+            <input type="radio" id="Actif" name="age" value="Actif" />
+            <label for="Actif">Actif (18 - 59)</label>
+
+            <input type="radio" id="Senior" name="age" value="Senior" />
+            <label for="Senior">Senior (60 et +)</label>
+        </div>
+    </fieldset>
+    </section>
+    <section>
+    <fieldset>
+        <legend><h2>Utilisation datalist :</h2></legend>
+        <div>
+            <label for="modetransports1">Quel est votre mode de transport habituel ?</label>
+            <input list="transports" id="modetransports1" name="modetransports1" required/>
+        </div>
+        
+        <div>
+            <label for="modetransports2">Quel est le mode de transport habituel de votre binôme ?</label>
+            <input list="transports" id="modetransports2" name="modetransports2" required/>
+        </div>
+
+        <div>
+            <label for="age-range">Votre tranche d'âge (0 - 18 - 60) :</label> 
+            <input type="range" min="0" max="60" value="18" id="age" name="age" step="1" list="tranche" required/>
+        </div>
+        
+        <div>
+            <label for="sites">Liens vers les sites :</label>
+            <input list="liens" id="sites" name="site" required/>
+        </div>
+
+        <datalist id="transports">
+            <option value="A pied">
+            <option value="Le vélo">
+            <option value="La voiture">
+            <option value="Le Bus">
+            <option value="Le train">
+            <option value="La Montgolfière">
+            <option value="Le Jet-Privé">
+        </datalist>
+
+        <datalist id="tranche">
+            <option value="0">Jeune</option>
+            <option value="18">Actif</option>
+            <option value="60">Senior</option>
+        </datalist>
+
+        <datalist id="liens">
+            <option value="https://www.iut-valence.fr">
+            <option value="https://www.univ-grenoble-alpes.fr">
+            <option value="http://www.aduda.fr">
+        </datalist>
+    </fieldset>
+    </section>
+    <section>
+    <fieldset>
+        <legend><h2>Ajouts des éléments HTML5 :</h2></legend>
+        
+        <div>
+            <label for="telephone">Numéro de téléphone :</label>
+            <input type="tel" id="telephone" name="telephone" placeholder="0123456789" maxlength="10" required>
+        </div>
+
+        <div>
+            <label for="email">Adresse mail :</label>
+            <input type="email" id="email" name="email" placeholder="linus.torvalds@gmail.com" size="30" required>
+        </div>
+
+        <div>
+            <label for="couleur">Couleur préférée :</label>
+            <input type="color" id="couleur" name="couleur">
+        </div>
+
+        <div>
+            <label for="expertise">Niveau d'expertise en web sur 10 :</label>
+            <input type="range" id="expertise" name="expertise" min="0" max="10" step="1">
+        </div>
+        
+    </fieldset>
+    </section>
+    <section>
+        <fieldset>
+        <legend><h2>Validation / Annulation du formulaire :</h2></legend>
+        <div>
+            <input type="submit" value="Valider">
+            <input type="reset" value="Annuler">
+        </div>
+        </fieldset>
+    </section>
+    
+    </form>
+    <section>
+    <fieldset>
+        <legend><h2>Contact :</h2></legend>
+        <p>Si vous avez besoin , vous pouvez envoyez un mail au <a href="mailto:noa.doisy@etu.univ-grenoble-alpes.fr">Webmaster Noa</a> ou au <a href="mailto:ilyess.tajer@etu.univ-grenoble-alpes.fr">Webmaster Ilyess</a></p>
+    </fieldset>
+    </section>
+    
+    <footer>
+        <p> &copy; 2024 Site de perso de DOISY Noa</p>
+    </footer>
+    
+</body>
+</html>

@@ -58,6 +58,18 @@ h2{
         -1px -1px 1px black,
         1px -1px 1px black,
         -1px 1px 1px black;
+
+h3{
+    padding: 5px 5px;
+    color: black;
+    text-decoration: underline;
+    box-shadow: 0 12px 12px rgba(0, 0, 0, 0.1);  
+    text-shadow:
+        1px 1px 1px black,
+        -1px -1px 1px black,
+        1px -1px 1px black,
+        -1px 1px 1px black;
+}
 }
 fieldset {
     margin-bottom: 1.5em;

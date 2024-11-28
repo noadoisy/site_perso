@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tester du C dans le navigateur</title>
-    <script src="https://cdn.jsdelivr.net/gh/lhmouse/tinycc/tcc.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@wasmer/wasm-terminal@0.10.1"></script>
+    <script src="https://cdn.jsdelivr.net/gh/wasdk/cpp.js/cpp.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,7 +54,7 @@
     <textarea id="code">
 #include <stdio.h>
 int main() {
-    printf("Bonjour, Monde !\\n");
+    printf("Hello, World!\\n");
     return 0;
 }
     </textarea>
@@ -70,15 +71,14 @@ int main() {
             output.textContent = "Compilation et exécution en cours...";
 
             try {
-                // Initialiser le compilateur TinyCC
-                const tcc = new TCC();
+                // Charger cpp.js et exécuter
+                const result = await cpp.run(code);
 
-                // Compiler le code
-                tcc.compileString(code);
-
-                // Exécuter le programme et capturer le résultat
-                const result = tcc.run();
-                output.textContent = result;
+                // Afficher la sortie standard ou les erreurs
+                output.textContent = result.stdout || "Pas de sortie.";
+                if (result.stderr) {
+                    output.textContent += "\n[Erreur] " + result.stderr;
+                }
             } catch (error) {
                 output.textContent = "Erreur lors de l'exécution : " + error.message;
             }

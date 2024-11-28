@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tester du C dans le navigateur</title>
+    <script src="https://cdn.jsdelivr.net/gh/lhmouse/tinycc/tcc.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,7 +44,6 @@
             overflow-x: auto;
         }
     </style>
-    <script src="https://bellard.org/quickjs/qjs.js"></script>
 </head>
 <body>
 
@@ -53,7 +53,7 @@
     <textarea id="code">
 #include <stdio.h>
 int main() {
-    printf("Hello, World!\\n");
+    printf("Bonjour, Monde !\\n");
     return 0;
 }
     </textarea>
@@ -70,18 +70,15 @@ int main() {
             output.textContent = "Compilation et exécution en cours...";
 
             try {
-                // Appelle un service WebAssembly pour exécuter le C
-                const result = await fetch("https://tio.run/cgi-bin/run/api", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        lang: "c",
-                        code: code
-                    }),
-                });
+                // Initialiser le compilateur TinyCC
+                const tcc = new TCC();
 
-                const response = await result.json();
-                output.textContent = response.output || "Aucun résultat disponible.";
+                // Compiler le code
+                tcc.compileString(code);
+
+                // Exécuter le programme et capturer le résultat
+                const result = tcc.run();
+                output.textContent = result;
             } catch (error) {
                 output.textContent = "Erreur lors de l'exécution : " + error.message;
             }

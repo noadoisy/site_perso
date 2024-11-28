@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tester du C dans le navigateur</title>
-    <script src="https://cdn.jsdelivr.net/gh/wasdk/cpp.js/cpp.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,6 +43,7 @@
             overflow-x: auto;
         }
     </style>
+    <script src="https://bellard.org/quickjs/qjs.js"></script>
 </head>
 <body>
 
@@ -63,18 +63,28 @@ int main() {
     <pre id="output">Aucun résultat pour le moment...</pre>
 
     <script>
-        function runCode() {
+        async function runCode() {
             const code = document.getElementById("code").value;
             const output = document.getElementById("output");
 
-            cpp.run(code).then(result => {
-                output.textContent = result.stdout || "Pas de sortie.";
-                if (result.stderr) {
-                    output.textContent += "\\n[Erreur] " + result.stderr;
-                }
-            }).catch(error => {
+            output.textContent = "Compilation et exécution en cours...";
+
+            try {
+                // Appelle un service WebAssembly pour exécuter le C
+                const result = await fetch("https://tio.run/cgi-bin/run/api", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        lang: "c",
+                        code: code
+                    }),
+                });
+
+                const response = await result.json();
+                output.textContent = response.output || "Aucun résultat disponible.";
+            } catch (error) {
                 output.textContent = "Erreur lors de l'exécution : " + error.message;
-            });
+            }
         }
     </script>
 

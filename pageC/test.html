@@ -1,72 +1,41 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exécuter WebAssembly</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        pre {
-            text-align: left;
-            width: 90%;
-            margin: 20px auto;
-            padding: 10px;
-            background-color: #f4f4f4;
-            border: 1px solid #ccc;
-            font-family: monospace;
-            overflow-x: auto;
-        }
-    </style>
+    <title>Code C et Terminal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
 </head>
 <body>
+    <h1>Code C affiché</h1>
+    <pre><code class="language-c">
+#include <stdio.h>
 
-    <h1>Exécuter WebAssembly sur GitHub Pages</h1>
-    <p>Cliquez sur "Exécuter" pour lancer le fichier WebAssembly précompilé.</p>
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}
+    </code></pre>
 
-    <button onclick="runWasm()">Exécuter</button>
+    <h1>Terminal Simulé</h1>
+    <div id="terminal" style="width: 100%; height: 300px;"></div>
 
-    <h2>Résultat :</h2>
-    <pre id="output">Aucun résultat pour le moment...</pre>
+    <h1>Exécutez en ligne</h1>
+    <iframe src="https://replit.com/@USERNAME/PROJECT_NAME?embed=true" 
+            style="width: 100%; height: 500px; border: none;">
+    </iframe>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
     <script>
-        async function runWasm() {
-            const output = document.getElementById("output");
-            output.textContent = "Chargement et exécution en cours...";
-
-            try {
-                // Charger le fichier WebAssembly
-                const response = await fetch("program.wasm"); // Chemin vers ton fichier WebAssembly
-                const bytes = await response.arrayBuffer();
-
-                // Initialiser WebAssembly
-                const { instance } = await WebAssembly.instantiate(bytes);
-
-                // Appeler la fonction exportée `_start` ou `main`
-                const result = instance.exports.main
-                    ? instance.exports.main()
-                    : "Aucune fonction `main` trouvée.";
-
-                output.textContent = "Résultat : " + result;
-            } catch (error) {
-                output.textContent = "Erreur lors de l'exécution : " + error.message;
-            }
-        }
+        const terminal = new Terminal();
+        terminal.open(document.getElementById('terminal'));
+        terminal.write("Simulated terminal ready!\r\n");
+        terminal.write("$ gcc code.c -o code\r\n");
+        terminal.write("$ ./code\r\n");
+        terminal.write("Hello, World!\r\n");
     </script>
-
 </body>
 </html>

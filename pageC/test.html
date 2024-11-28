@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tester du C dans le navigateur</title>
+    <script src="https://cdn.jsdelivr.net/gh/wasdk/cpp.js/cpp.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        textarea {
+            width: 90%;
+            height: 200px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        pre {
+            text-align: left;
+            width: 90%;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Tester du C dans le navigateur</h1>
+    <p>Saisissez votre code C ci-dessous et cliquez sur "Exécuter" pour voir le résultat.</p>
+
+    <textarea id="code">
+#include <stdio.h>
+int main() {
+    printf("Hello, World!\\n");
+    return 0;
+}
+    </textarea>
+    <button onclick="runCode()">Exécuter</button>
+
+    <h2>Résultat :</h2>
+    <pre id="output">Aucun résultat pour le moment...</pre>
+
+    <script>
+        function runCode() {
+            const code = document.getElementById("code").value;
+            const output = document.getElementById("output");
+
+            cpp.run(code).then(result => {
+                output.textContent = result.stdout || "Pas de sortie.";
+                if (result.stderr) {
+                    output.textContent += "\\n[Erreur] " + result.stderr;
+                }
+            }).catch(error => {
+                output.textContent = "Erreur lors de l'exécution : " + error.message;
+            });
+        }
+    </script>
+
+</body>
+</html>

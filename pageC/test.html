@@ -3,25 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tester du C dans le navigateur</title>
-    <script src="https://cdn.jsdelivr.net/npm/@wasmer/wasm-terminal@0.10.1"></script>
-    <script src="https://cdn.jsdelivr.net/gh/wasdk/cpp.js/cpp.js"></script>
+    <title>Exécuter WebAssembly</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 0;
             padding: 20px;
-        }
-        textarea {
-            width: 90%;
-            height: 200px;
-            margin: 20px 0;
-            font-family: monospace;
-            font-size: 14px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            resize: vertical;
         }
         button {
             padding: 10px 20px;
@@ -29,7 +16,7 @@
             color: white;
             border: none;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         button:hover {
             background-color: #45a049;
@@ -48,37 +35,33 @@
 </head>
 <body>
 
-    <h1>Tester du C dans le navigateur</h1>
-    <p>Saisissez votre code C ci-dessous et cliquez sur "Exécuter" pour voir le résultat.</p>
+    <h1>Exécuter WebAssembly sur GitHub Pages</h1>
+    <p>Cliquez sur "Exécuter" pour lancer le fichier WebAssembly précompilé.</p>
 
-    <textarea id="code">
-#include <stdio.h>
-int main() {
-    printf("Hello, World!\\n");
-    return 0;
-}
-    </textarea>
-    <button onclick="runCode()">Exécuter</button>
+    <button onclick="runWasm()">Exécuter</button>
 
     <h2>Résultat :</h2>
     <pre id="output">Aucun résultat pour le moment...</pre>
 
     <script>
-        async function runCode() {
-            const code = document.getElementById("code").value;
+        async function runWasm() {
             const output = document.getElementById("output");
-
-            output.textContent = "Compilation et exécution en cours...";
+            output.textContent = "Chargement et exécution en cours...";
 
             try {
-                // Charger cpp.js et exécuter
-                const result = await cpp.run(code);
+                // Charger le fichier WebAssembly
+                const response = await fetch("program.wasm"); // Chemin vers ton fichier WebAssembly
+                const bytes = await response.arrayBuffer();
 
-                // Afficher la sortie standard ou les erreurs
-                output.textContent = result.stdout || "Pas de sortie.";
-                if (result.stderr) {
-                    output.textContent += "\n[Erreur] " + result.stderr;
-                }
+                // Initialiser WebAssembly
+                const { instance } = await WebAssembly.instantiate(bytes);
+
+                // Appeler la fonction exportée `_start` ou `main`
+                const result = instance.exports.main
+                    ? instance.exports.main()
+                    : "Aucune fonction `main` trouvée.";
+
+                output.textContent = "Résultat : " + result;
             } catch (error) {
                 output.textContent = "Erreur lors de l'exécution : " + error.message;
             }

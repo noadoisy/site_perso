@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Sudoku</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Sudoku</h1>
+
+    <label for="difficulty">Choisissez un niveau :</label>
+    <select id="difficulty">
+        <option value="easy">Facile</option>
+        <option value="medium">Moyen</option>
+        <option value="hard">Difficile</option>
+    </select>
+    <button onclick="generateSudoku()">Nouveau Sudoku</button>
+
+    <table id="sudoku"></table>
+
+    <button id="check">Vérifier</button>
+
+    <script>
+        const emptyGrid = () => Array.from({length: 9}, () => Array(9).fill(0));
+
+        function isValid(board, row, col, num) {
+            for (let x = 0; x < 9; x++) {
+                if (board[row][x] === num || board[x][col] === num) return false;
+            }
+            let startRow = row - row % 3, startCol = col - col % 3;
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[startRow + i][startCol + j] === num) return false;
+                }
+            }
+            return true;
+        }
+
+        function solve(board) {
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    if (board[row][col] === 0) {
+                        for (let num = 1; num <= 9; num++) {
+                            if (isValid(board, row, col, num)) {
+                                board[row][col] = num;
+                                if (solve(board)) return true;
+                                board[row][col] = 0;
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function generateCompleteSudoku() {
+            let board = emptyGrid();
+
+            function fillDiagonalBlocks() {
+                for (let i = 0; i < 9; i += 3) {
+                    let nums = [...Array(9).keys()].map(x => x + 1).sort(() => Math.random() - 0.5);
+                    for (let row = 0; row < 3; row++) {
+                        for (let col = 0; col < 3; col++) {
+                            board[i + row][i + col] = nums.pop();
+                        }
+                    }
+                }
+            }
+
+            fillDiagonalBlocks();
+            solve(board);
+            return board;
+        }
+
+        function removeNumbers(board, holes) {
+            let attempts = holes;
+            while (attempts > 0) {
+                let row = Math.floor(Math.random() * 9);
+                let col = Math.floor(Math.random() * 9);
+                if (board[row][col] !== 0) {
+                    board[row][col] = 0;
+                    attempts--;
+                }
+            }
+        }
+
+        let solution = [];
+
+        function generateSudoku() {
+            let level = document.getElementById("difficulty").value;
+            let board = generateCompleteSudoku();
+            solution = board.map(r => [...r]); // deep copy
+
+            let holes = level === "easy" ? 30 : level === "medium" ? 40 : 50;
+            removeNumbers(board, holes);
+            displaySudoku(board);
+        }
+
+        function displaySudoku(grid) {
+            const table = document.getElementById("sudoku");
+            table.innerHTML = "";
+
+            for (let i = 0; i < 9; i++) {
+                const row = document.createElement("tr");
+                for (let j = 0; j < 9; j++) {
+                    const cell = document.createElement("td");
+                    if (grid[i][j] === 0) {
+                        const input = document.createElement("input");
+                        input.type = "text";
+                        input.maxLength = 1;
+                        input.classList.add("user-input");
+                        input.dataset.row = i;
+                        input.dataset.col = j;
+                        cell.appendChild(input);
+                    } else {
+                        const span = document.createElement("span");
+                        span.textContent = grid[i][j];
+                        cell.appendChild(span);
+                    }
+                    row.appendChild(cell);
+                }
+                table.appendChild(row);
+            }
+        }
+
+        document.getElementById("check").addEventListener("click", () => {
+            const inputs = document.querySelectorAll("input.user-input");
+            let correct = true;
+
+            inputs.forEach(input => {
+                const row = parseInt(input.dataset.row);
+                const col = parseInt(input.dataset.col);
+                const val = parseInt(input.value);
+
+                if (!val || val !== solution[row][col]) {
+                    correct = false;
+                    input.style.backgroundColor = "#fdd";
+                } else {
+                    input.style.backgroundColor = "#dfd";
+                }
+            });
+
+            if (correct) {
+                alert("🎉 Bravo ! Vous avez résolu le Sudoku !");
+            } else {
+                alert("❌ Des erreurs sont présentes. Essayez encore !");
+            }
+        });
+
+        generateSudoku();
+    </script>
+</body>
+</html>
